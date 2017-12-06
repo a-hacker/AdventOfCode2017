@@ -1,521 +1,1087 @@
 module Main where
 
-import Passphrase
+import Maze
+import qualified Data.Map as Map
 
 main :: IO ()
 main =
     let
-        input = "sayndz zfxlkl attjtww cti sokkmty brx fhh suelqbp\n\
- \xmuf znkhaes pggrlp zia znkhaes znkhaes\n\
- \nti rxr bogebb zdwrin\n\
- \sryookh unrudn zrkz jxhrdo gctlyz\n\
- \bssqn wbmdc rigc zketu ketichh enkixg bmdwc stnsdf jnz mqovwg ixgken\n\
- \flawt cpott xth ucwgg xce jcubx wvl qsysa nlg\n\
- \qovcqn zxcz vojsno nqoqvc hnf gqewlkd uevax vuna fxjkbll vfge\n\
- \qrzf phwuf ligf xgen vkig elptd njdm gvqiu epfzsvk urbltg dqg\n\
- \sfpku viwihi fje umdkwvi ejzhzj qrbl sfpku sad nawnow ksnku\n\
- \nzhj mfudick ueaa jnhz kpy pzk\n\
- \euiin xvl elaoelu wbdd xlv jtm nohtq gfdbgdg gdfggdb edtym\n\
- \xfmkn wyww woe hwysuh gjw dtk utryasc dela eluk vmmun\n\
- \nmag qfwe cwslmgd nlhf hpf\n\
- \ifs sszo iod isf jna\n\
- \pjptwg wreera leyb hmlbpf qcrbma ylgue\n\
- \rwlpo jhla rprxvgs quguh pyybwgl qqvcb\n\
- \rxtcpdy wmpci mpcwi vwvdzdn nfpnj rcsxinl itatg ycy hrctg ron wveju\n\
- \zmkfn wip pyiz pyiz tnyg dvftf elks ezhotbj wip\n\
- \sgmtfdd xdl sch sch yaxzh wphgksh knzrixp yaxzh etm czqbaa jldta\n\
- \gnbr rnpd upe eeb sbq sbq oxc rwvugoj\n\
- \cshk thcc emfxx emfxx pbtcf jpim vltkqar czy iudkac jhpcc nqs\n\
- \uzbvx fkiuyk izxdiu yutntvn dixuzi hkyfnud oyz ynutntv\n\
- \ewl mfns idy fphu yqccb pte unukirt unukirt fdx\n\
- \lzn tin fgena qbql qycbdw gbtn lctlysx adhjfq blu aiv\n\
- \ites ites pbxzunl vljzh lqgerta pbxzunl\n\
- \vmk wjfzvhn pqkidze qfwh\n\
- \tqprmc exypl caf kwikh mdyyljc pbo hhxxo skna\n\
- \sqxgejb ejc fvup hpesvs luz fcxqwhr ypxof fxlcp pxyk xiczjri\n\
- \vjg qcw fsyqaoj mxf jha feclqqr vzdqnk verw mvmvm pvdqtcd xsfu\n\
- \fwwn ktvdh aecfv acfve yjozxwo cnujw bcgde lphnk knlph bqwlqju\n\
- \uwwapm dlln uwwapm uwwapm\n\
- \huupab ewetcte huupab ewetcte\n\
- \wjs zipivpd klwafr ipcczg wbv uujstsw hykn\n\
- \mgojdyh hlm xruta lbmaxit pabqrnp vkyigd ptpzr glin gfau pbo\n\
- \tbwx baqxq vtz jwex tvz tzv\n\
- \efopwx wfknzb ogaxln tqzrh jne zugd zpxikma\n\
- \rdjsa arjds hqdldw fjrtl midt qjv jfrlt\n\
- \dggqohj bidaaty iah lgmug wwmlbc lggmu laonaoq erkqrb tqolnns iygv qnonlst\n\
- \msc glwn xjfnij itt pka irrafjd euazydj silo\n\
- \zsyut znsht ldky zsyut dzcdft znsht\n\
- \iit cyteu pib fgvrs iux ffctql pib zuzp zsbb ieoi\n\
- \xxtwlu kqfxjhq isj xqjhfkq dohrs haovzc cgfwfrt munqon vuyexz nouqnm\n\
- \eptpqgi uiflvd acj livzq ejtt bniud cjdh jkrcken lspfy tpxri zibj\n\
- \zxme dpo fumup gly bkdcwxn lsly eglhe\n\
- \uoshw ijoyiql rcskaa vjbqv roiinzi fppqdu\n\
- \xuw vdbxie oypcx khxq xebjt oypcx uitqep vdbxie hoz\n\
- \lrjv tdksk uebo wktebvx nlapmp udhhxh uliqbm cklyyf jlzw xrmdlvx\n\
- \fosspck fosspck fosspck qyidyur hxnxmb dkpj\n\
- \rmrvlms susvos idw hzy idw tjgxbc lhgqxr tjgxbc uuq\n\
- \etjmbdr hwqe lnfwzni lnfwzni good eisci etjmbdr\n\
- \yqde bmlcc yuel vpyplss vyvhho kslgiu lllhc jtkijdj uclz hfbqsf\n\
- \tlohlvv tlohlvv bdqahw tlohlvv qavcqrn penia saafy\n\
- \lvtzyt qffe eaikhv eaikhv wbnl mdkg mdkg utfrm\n\
- \luowwk magp luowwk oyao oyao hsb yms\n\
- \gnxply vsdqum nprf jik axdp ariqjpc hjqcc\n\
- \izbo nkqkb xpqg pgxq qpxg gpm jxbkvu resj\n\
- \hsgyxar hvsl ner zzmcn lcpdvqn ern\n\
- \rfjlhu xkyh hafs cvvk drg vjsk mymc iab ycmlubx kpwemiw\n\
- \wlci qhhpr vhpr oyrili cnynh sivdso ldjya wilc ioiyrl\n\
- \cdfwd mbtk sienxui jsmxzo yxbeyl bybtc covxaq yuxn ktbvztl ktbvztl rcekjhk\n\
- \ptenhqv tzdt phetqvn mfkdz\n\
- \hmezeak pqvqld amsih jxqacc uferfyh nfqjsz rtuqdzz pohcx qia cpxho hgpqs\n\
- \iygny dluc uxqz nlujm xkdtlm xbdgepg jwn ohl wpfll\n\
- \lnqf pcxy cpit enp zpj lqfn oowgw yoxdff ohvcfcf fuvz qkpmb\n\
- \oydu jlscilm pzxen nmtdngu tslcupx ntdgmun uztpx nlhh jqn llsv\n\
- \euyx epn gyvg cwtoe ruyap yaurp uryap obbl ovo\n\
- \pgo irm ksrxe qotuygd afwh qfhzfsr wafh dqjbwce dzfo hew skrxe\n\
- \dpvel dpvel ipljjxs vrrsob iakey uheuu swxu qmnmn mpjkb jqrwfmv jozj\n\
- \sempz plzxqe qvyg sempz fejux\n\
- \cqgqvg zhqir rqzih vyu fmb mfb\n\
- \uejl kjh ayz dzimg yzafvg dem vlogg\n\
- \htfkd htfkd hwykmm htfkd\n\
- \oxvgq wtai rkyyxya ldkecdv\n\
- \lvlrsu rsullv pptnrwi slvulr vxrk dpzti\n\
- \gde ixwoz nnsx nhc nzi\n\
- \dsadkj qtgya wco psyondq jayad crc lswwm purrad pof\n\
- \nocibgs hxqdejv nlqxdpu dvzd\n\
- \jfaws aiwnjm tqjpgs fuiobz gwnemv hjevs xkbbgiq sakgv zmwpkuq grjllw\n\
- \xrr jwhtchs boaqkg wjhdr xrr\n\
- \vyapct tgw juzgwkz odddvof juzgwkz\n\
- \unuu kubdd dxr drwg\n\
- \qpefzz iemo fwa vhdcxx\n\
- \hseqy copss gytzub lxi mrxtwc hxqqdfx ijt kcy tafjs jit\n\
- \uevse rrq zmwyjfe xljx lhgnyzt rngvwqd\n\
- \gfvpyhq xpdhind eocgpiz ebs pcmsgjy swni iwns thspnh yvbzxz fgb\n\
- \hxr ehw ekfd ncxcs gxjmd oqszdjp fgu gwuoafw zumenf qltbw whzuxov\n\
- \wfc pawqo pim jxgt dtiwzil hdptivc slkazm htafjih hzheez rkk amy\n\
- \mgoatiy pkec ddvwyni zuya aqrcjes ubkaeus nuhhad upe qfem bpcc\n\
- \rmyeg qfq bia lzk fusqfb ltvgry vggr xaxi avwdkbg zhlzt\n\
- \zkjoeee dyi sxdwfqa irqljmw gek dgdb mrakr ddaznn zlh ajzzacf juv\n\
- \kmqcy pohbej hujdgao rsxfkn vlu\n\
- \scnpa hvl cybql lvh lbcyq msw deqqb yjpsndq\n\
- \ndhjooo dpf ziey jtjlc eesag ldhgoif\n\
- \tysbae wkpst kjz stpkw sil yetsba\n\
- \ghvlfq flhvgq tgkjie gqlvfh\n\
- \oimn vlmsljl ocala vokhrs odyv msn dzly wcky\n\
- \cfjwmh rpsdor bttnkg jxenm mwdk mer jgsusdz cslf\n\
- \ialvxk bvc qjfikr caw puhmmfl xpmsx\n\
- \tyoey egcf dijg vywd enued uxkshz nav bdrn hjugffi iobqwiy\n\
- \eykhxck shpfjhk vlqg alkenz kuj okxs oeth mqbr nfvqvkv xfvyi mboo\n\
- \zbw curcajm mel jxqcw mpdscxq rhadty zrddeh wmedc wkcwt yvwm\n\
- \iee hzeofmh pqlkkb azlam fpj hzeofmh ripi\n\
- \sawaqek oyoiwtb npq pisadk nnd bzgo wiqme lxnvn\n\
- \obqx ffiegn obxq for xobq\n\
- \zwway wwazy aqxg gaxq\n\
- \ebssilw nuscati mofyc sogyacc yujmdwu ehxsx qcaf udvoo nlcfaz eov\n\
- \vnbe wtzzjn bczyxt crmvas zujy kukq zujy kukq\n\
- \gvltk kgltv kglvt zflikic\n\
- \hby pium gut fjqn sksoqyq kcliapa\n\
- \tbonrr prf vga jqgw ulze ukfig\n\
- \zafixw hia omgwoi noeiox fqbket iviidgp bebune kwcuotp slvy wcx\n\
- \fjq cyecn fhxvj byv kojvj iaqd aaxva rkogp\n\
- \vqbbt sjmr mxu mxu rlfj yqhtzv cuar yde yrs sjmr\n\
- \iyxiyp auepgw dtpbyvu thuoai fpsfkpn bemgbsk lni ozy jogp xldyvvx fpsfkpn\n\
- \jtha ibn ahbkh xzxkei tql mycvmyh ioyw\n\
- \mpsc pvdiuu wqixxlo cqwmlrw cttoz lad\n\
- \srl xxlnofu dqf snxd zjlp htxzd\n\
- \fkv berlbyh kyna wkme qjzgh thpw frup\n\
- \irhreaj udkpbza qmgp ormlipa lbyuc\n\
- \empizc apcb ossmtj awk ttsgi bfoymzd ftx jkicph qqjv tywp fwzfe\n\
- \zaqkd ysn zaluvs rljdk ast fjp amjqr uabrya ufswzjg vcldkxt hzsmrbl\n\
- \qvy tqgnwj akibr tfjevhv vav\n\
- \mhe sxg hacoa emh kasf hid jklfy ijk dih\n\
- \qvwbenk akdctm jztmsx aqvpodu vmknns nck letcrk poba\n\
- \lhve kkvff iiixid vtsun uvgte mmlxk pgd\n\
- \gktphd aaoqwz lrvsuw ofcyvmi suvwrl dpqiol wjgj uqigjx\n\
- \tbp xoc lmz dyzlvp bjleh pxj xjp xbil\n\
- \gpzgvj tctszm tctszm pnp upqtmm rribg tctszm sllsbr\n\
- \hpm qvjnd lyqg bybpwn etz pwfigbg uqgrvpg cvniubo\n\
- \tpowus bdncyxg gmm ebfg zwoue izgkwtx gmtfeg xvudp xgmjp atrvn aqgl\n\
- \wlrxvo wvonohi owxlvr owhnvoi\n\
- \knyo aiixyi sjtqb kukhgv qkj qiuefb syhfc aoana okmot tdsmnoj eyzqjn\n\
- \szhto szhto szhto fxpsavu dtcz hnwqdvk iza\n\
- \poykme rboczge tuyiw sxr\n\
- \lpgbp bpmf aiqy exzqt gxdoow yjp fxwdmt eoklc jnps zbnbiwr ppvl\n\
- \huecy jjhyz pwcea ffofmj tts\n\
- \ahbmkw brz xdenmw mwexnd ncdxgf gcxnfd\n\
- \yhfnra vqljz bkyxzt vhtsyde ysaxt qbw\n\
- \gqhiej rofhmp soeebdp rcuiblb rcuiblb rrnh nses\n\
- \pxrwe suil iihzf lhcgmfm mqasxh ttpp kqitdyf cuabaa\n\
- \cxl cwsp qyseogj dimvv igsoxu ncrexla ubrvpp oum usluv\n\
- \rkmo jqqcdjb mobqcta pbcmoi afjlh mork\n\
- \nmohoeq fezpxh fezpxh yec\n\
- \yxlncrt ivi dajo tjpim tjpim\n\
- \hzhy rcjs uhyvwz tdpxlqw itoiyf\n\
- \ded apfmhe stfk ugyujv drwks zagqnw mbbzmvc aoupemq\n\
- \iezre wivdwif xzytxe xwytd vpnol pljx aot phln ztncw\n\
- \ozblu asda tkxh xqe pvijnl qwwh uvp bdhtgjt uynwtav cdz uqmvp\n\
- \eukgtsy kdfb bdfk tnv dfkb ewdemb\n\
- \rsf cxnk cid qsa zwk oetnggn\n\
- \fpq oim zetbmlk fpq oim xgv cbaj cjrqm\n\
- \phgldt fhmkc efkztj qidri vsv bvjf lfwfgm wfuoln toamg wfuoln idrs\n\
- \iuc rrdnk rrdnk asqhnz qxkigmo eeoim mmdtgif akk\n\
- \rfvsyy kopfhmd tnv ibo demeqm gxrxw hwk ukorln bep\n\
- \ialo eogif sxlj xfegx nanch egoif eymwt\n\
- \kttrpjq gbnyiat kptg oarewx vkmt gbnyiat szyokf\n\
- \tjll xviodi tjll efc rliugl wfbbpq wsqvdli jur tjll bguqyu\n\
- \uecm yzjhn vqf labnc xyaksj\n\
- \hjtef zzq ellr wtrodcg drwqo ernt uzx sqiokam\n\
- \izmh ddutl bdzft jvfthh\n\
- \ecr xqrp qlxstu kgprd gqvtwni mkughf bulabe bvoxkx\n\
- \jwsna vjwq swkycg cpp dvmyal xotxviy qkiva ffa eakwp fww yirri\n\
- \ufnl lpuxw rjki nggh ajdkpvo oeuaemy bjisma vsjzc\n\
- \ctxu aavlw rap fzxtcp msufn fzxtcp sdlaom vgvdvpc\n\
- \rftw cyf twyxi orifavd\n\
- \ogiht ertz wcw jnqdup phvp lbw\n\
- \tplpyq jeh aobamqe bvaim qptac gssi mkjbaj\n\
- \nmklyg iitx iczojzr vjspqb uooky uooky hjk\n\
- \ggnekbb bnebggk sepzjd fvqfgr\n\
- \wnfwrn yaiogv mbusuy cpbcgs thjea\n\
- \atndjc dbjgdz guedeay rasa kfhame pusuu dbjgdz\n\
- \xivzyml xivzyml eqsykxo bshvz xivzyml\n\
- \nfe ayx gscy ylyp oqyl isatnpx poaelm zsrw dpd eyrdjpq yllk\n\
- \feqktz mlm jhi yxigeu xzqa qwv yquxw emken jgqsp rojfcu\n\
- \ruvfcud poubal xswer hfhpyp guf pzgzoq pzgzoq jwgxafi guf kqzzlu apg\n\
- \rxwcsdc rxwcsdc ywu rxwcsdc\n\
- \dmgsey xrtx wldwyxz avi\n\
- \yxnqv ewlx fvif ozfcbxb zqapa yudqksk wlxe mjpvgz\n\
- \ozoa ozoa hwkbp ozoa\n\
- \qcv drtqn uqv kcsavgn ybzs tkw\n\
- \njmloq wapa srm srm ifurca\n\
- \ezm ccj rub yuaww xhee liikjee kcabgic sbgqx vrpyo pzmesdp ksvv\n\
- \hycyne raaksm nylsc lcpgn akasrm vxwoaum\n\
- \zhugs pqquitv bae lyozb fhij pcdcc bae rygsgm pqquitv pizz\n\
- \oxx bzk grpis qiqljwh svkn\n\
- \qcq qqc fzgn sqg\n\
- \lclad motw ukz zghp\n\
- \glr okzfs zgv ygsvv sauuog glr amxr vvmwmu khy eyh\n\
- \ukpxpy rgnqyaw ncm coeblf\n\
- \qdbr ortzo spvnrnq uomtj vffbeva\n\
- \miwar bidfxp eibo qyee\n\
- \yldec ghwj mxlemvi imac klkvmg fekxhp kevlzfr fcgnoq fncgqo\n\
- \hlm vlol qdic rltij nlzxfys rzpoh\n\
- \krpwspb yrosr hioqla dbpgzgu dvkvvc vvdckv lcjzb qbsbr acbi rtnk\n\
- \iqtvk jcldzuv smly whmnte mdwlse mkxw mfnkv mkxw kes owkfh\n\
- \iwcjmkt rnb bjcdjl furhzuu exs\n\
- \kjwu iuaj ixkujoa jzeau whpn\n\
- \tvj zrdy fwsbagh zrdy czuzum lxotprx wbohaai\n\
- \crsyzod jouf osxntw iwzzie bodu scze gjxn vgxvqo gjxn mmthykb\n\
- \dabjfb vjqz cvr gsymwoe qzpusj twvwhw gyvlqd kdrdkzm bdljp cvr\n\
- \vmswdz lgjsvxz yjkgqkg tzmjkfp uzbmwxe kuqa dzomt hep jjlibs oxvpvq cix\n\
- \iqgd btwdjd ncdrovj ltxqc orwhdlo orwhdlo\n\
- \nxro uxj ovgha elvzl xmlzssr wonimvb urecfx dbfn kope\n\
- \tbes cgyh fypswue fgxjqtd dxdrfm pzhnaeu kugspa\n\
- \eouzw qrpokyb fyhpb bcvfvze brdwey gpaa fpqutw pbqkroy axtc egamku gxk\n\
- \xdrovpt peeww wkcin suir gvrbix\n\
- \hgsjks juvod jtii iijt\n\
- \yaw hzifa wpagkd tgvmc iru yyeuy mgcvt fhiza\n\
- \lsk lks kls edypaxo\n\
- \tjz qjs mgoyd gomyd ztjbex nprwk vvw rtjsq quvf vuziqtb oygdm\n\
- \kftodz xua lyxt zfadf fgdwt zfadf xua ehwykd wniahd mqoarg\n\
- \qgiapb xptk iscyf zfspn qvrpva egufqte zfspn hksw xwxrs dkdruku vegfs\n\
- \wqifs wfsevg iwnjjpi oajju tkvhpl lemuw\n\
- \rzbmhso pbvb lfgpq fzjwxxh pqlgf rbhsomz\n\
- \ufi aiyd gxozgx hygjp dtma uughdc ojumcf yuadt\n\
- \caami tqzkvor tqzkvor tqzkvor\n\
- \vhtnvyx myxdywi mwpwq hjxadd qkcj vvytxnh dmbea\n\
- \jvjtcjg mbiwyad cup xkrfk puz uxpmutf rjxyxyn mfchc\n\
- \ocrak zprfbgu pjjzl zoehfkm xqn qki uxq tcv emknqjp wvmkas\n\
- \nxg myr myr vnfzpoy\n\
- \gwu ezt kbmeouj sxue cxax gcquz ieegnal xecusia vxf\n\
- \xermi xermi qporwc mzemns ticltnz ddpsstr ddpsstr slgbn\n\
- \xnujwtw bvzv xjwntuw unxwtjw\n\
- \tipo akp fkmcls wglmjq fnrtsv\n\
- \fan dfbya qrp lcvxqqu ldpm gucmeky mrzy fixaph rygneb ocm pjh\n\
- \ovtrqs ujmbnal geihpe mijhy eewuic toaxbp ipy tvb evlmrtd lbujmna\n\
- \lsmbwwd hvurk ihbuek hvoyq erzomhn gue lpq dihon dgzvst\n\
- \fuoshq hfrzeu zfrhue ufqohs\n\
- \icgwnbi gmhogxu gmguohx toixb hfwj haxlav hbe jdpxeyi xtgfi\n\
- \vfakk ioil hddqu sdztx hduqd bmiuyr vmas\n\
- \mcvjjhf sfgt sfgt lambvp dnqc pfecquk\n\
- \xgr omy bmoadg afbna mar nicpazd iveku zdioyo\n\
- \rpipon dwg wgd pironp\n\
- \fkyx wjefuy mfesst ztlf gnnceb rsbvuk ckilt kliqnm iuifcvu\n\
- \lmgzx oknwr wmttry luipa vcttj nuqdmy\n\
- \iota efrxkk daqzm certtoi nnvqrwz qrqgza tllwp efrxkk\n\
- \alde wqmdjy erh txrtqm zuljg hspbnrd pvsnebh bkue pvsnebh txrtqm txtthn\n\
- \hgggm rswwfpj uctzrv bylqeen dpbnw ostsjwn jtjiyuh ofxu mmmqlg ayhza opbgdrv\n\
- \qmhkh orbeokv agosach lhujcju jzpp wmxtcy jcxglu iuwmzrv xwkgz sxlzld\n\
- \dzcdm lwal xpujjm xpujjm lpfojz lqqcon qmqrg\n\
- \gmwugq ceslt rxcogaq jwkraq\n\
- \joxr brdy yixlou brdy lnr lnr\n\
- \wbut pxlsclt igigapq zeacg jxiezn hvws wwz ujpbl fdjtfjw opod kea\n\
- \tsodswf pufo zqrt zvcpu\n\
- \nyy mrqmg zkt tslzsf zkt\n\
- \hxywv lbmogd hhv npyzgjy whfvv mlfqjr ggjz owijo zmesslo gtvizw\n\
- \xzz dvpzxbd wxwlp cye rcqpgrr gynzo nhy gzpk fpfmb\n\
- \nhaakbv iazpdc yadqbe kmqm dffq lidnh cegjosw kgd hwivd wijj\n\
- \cwmdyf huoy awihev qav cwmdyf rdwck hahj pesfyk uoju zrirjdu\n\
- \qabl vwcwbb phnd xnp huuzwxl rukbp kod sfu ngcvgrt buncnfw\n\
- \regyd gjzfwf hpuv zmm vphu gwffjz\n\
- \rdf emo crsoeo bksetj aqfzm pphny\n\
- \opbmboi iakvj ymjwm vxoq qvox yafk zkch adlusz\n\
- \qhm jul zasv xhu qnhjwzx\n\
- \mjmyvd mezfuls upbdpzw awc qxta bzrx tjpjmj dxfyewc zorm\n\
- \bko kfokm htcpoqc liuvj xhmpcu ccqphot dthvo pfj dtxpmu xoocm cmxoo\n\
- \kxv eenns qhpfsvo gqoyv jzjho aoscl fetug agxmfea aygpt\n\
- \javmegf jlmt epdwy egfs hwv uszcqvn foixpz iukh dbuhqgs zgb\n\
- \zrex zrex xtx ydan maomp hqdhh mfvan broh wvwhqbu\n\
- \phatsot joipm pmniq arqzmbe vurl bgy iwbwk oyhngcv vnzbzgm bgy\n\
- \xprufgn vhca nrs abuh zwsxmhk mqrj tyslsij ojkdzom wepxg koodzv ypvyy\n\
- \vop nnpz mcod mlli ntyhz laqztb kauqkla gmrfte pcuhaci\n\
- \vrenj lypors prknc djbdkzv amofdx\n\
- \lgig lojnrw obusoc fkwe ggnv pydcraq bvdivl vev mrojjs rxa\n\
- \qeg tap jocwlsm vqxa lmjscow\n\
- \gptlrgq vdasm erdc oparmw\n\
- \rgbsa nacqhvm pczf anupcp upudwgp\n\
- \jbnobi ifhzrd ihrkkf osw wos lrnwv\n\
- \aiuntpl fcxpmz fplacs fplacs tipm gfotkx\n\
- \fsbnd qoc ozmbi rqv fmbxh tuso kfoxvjn ocja zzs jwplx\n\
- \muaklvq ghozoxh nwxbh mgoou ufptl ouhh reyuf jougckd dgprag\n\
- \gwbnqwv dtrd mkzxinl erxl zmfa skuu crxmp wwao wwvdpk nxbn lglzy\n\
- \qeejk wvnypc yfzyfcr eeqkj\n\
- \nmcp fmkgfyi grfthau azw\n\
- \kkallxz rjke ukbt ixkhfb bktu jkre\n\
- \pxj mnwe djrjde gpsc enqz pdbydx cktfs jjeddr\n\
- \mgplj yyunujc vis odee ccesa yyg yjcnuyu doo utse\n\
- \flyy juvxomm vcdcyva lfyy ozxnuzw bmgns\n\
- \kmsypi zpbyiv rrycnb qos sslwyeo jgbyv njltzt fuwk nwfb ozcf xqnf\n\
- \sdcvgmy sdcvgmy hzv uyq sdcvgmy\n\
- \fyox vmgxahj ywaxbmm ugy ruwc mys yrjwr ozsxb vaq\n\
- \gjpyc sgdn kgm fbvq cziui nzy bwu ezjkkus jrag\n\
- \kxcr tgjxss xkcr bembjv rbbiw bwbri\n\
- \dcz rrhvdc zbonfzy ubjt\n\
- \rvq yjnzswt vatkopb xlj dwxig dqlt qts iva\n\
- \lylclc jptz rbidu lbt byxk\n\
- \lwre vwriwh afixsi vwriwh\n\
- \kmvbflr nfptw fbglxh pyas dxmn hemf segaz zrs\n\
- \dvbey zmj xfoi bma udtxhb\n\
- \yryng geiwgz bbrvjp ala\n\
- \olzicp olzicp qhhslry olzicp\n\
- \exf xdmwh xdwhm nhjsssn rmlkdb excguia fex\n\
- \xkwgeso htys sjdk jizciy gjjl phgqdjh wzdb izew zcrumu llxfp\n\
- \frkohf oifsm aisebkt ijsfkot ukk\n\
- \koqf xvoior tpe erfpnp npnx\n\
- \sneysk nsxki wpmhd mdor akrpvgz moicncj sbsj owfhj exw\n\
- \oqqbvk xztx gtxlms icmo\n\
- \lfy ltq dlzqlvi ovbrsa gzm nhcjq umbtgm nhcjq\n\
- \iuopdzq cqaeuu xuzngq kxlx laml slvvr frtml tvioiez vyoomw xickbqh\n\
- \ckahov mepeku gtaf gtaf\n\
- \tlto cnnz kzsbkjo kzsbkjo\n\
- \kqf comkf dvrkyl jdsqi rnwvb vxvd pok\n\
- \hncq xcx yuykfs egrruvw yqh smcou\n\
- \tywyq xeq cix yywqt jhzptci hybcoe\n\
- \zsw zsgot wnu sumd azmuos qawjaz rpf zkxgwdu iom igh\n\
- \vmxmelt gll ysbbt yboqoyz ykdglk cnypf otn owsz ipn epfeka bkmy\n\
- \wxjpce etzyavi whb sxzft bfu dgwnbgc nfw sxcteis qqpk\n\
- \kofv dgoyme vlza oxhbo lrqt uic tvfqiyy iaqm afnk\n\
- \nsmpg wkibdcz dxbw tlxzm zgwe nqwjji eacbhn blk\n\
- \shlgws eencr rtufah kjyvqw transt ecsq otbf\n\
- \obs xsjceex ffqj sob djpq jcda zlskve\n\
- \rfqtle klarp mtzrx rasr eisqovk rpt vymibt zwrif ilsnd\n\
- \ldu ffd ldu tizfexr fwpmyan\n\
- \flxso tzec pzn flxso kzdouon tkvkj\n\
- \tvd arh qywql uev btvnpm\n\
- \wtwx kzafvk ybyzmhv mdbrphy vamlvr gbxhod tyulba krcqj ikotmla qfhpa\n\
- \bnfin ebngj agfdfzu rhjtj aaqzh fsyp nilar uwurjnu hhmso hhmso\n\
- \uanmesj vshh syosjdt xkormf syosjdt ifvytwl qnw vshh jkg\n\
- \epyzcn pgdxgye lecnx nebg jzdhvge hfy imiyft\n\
- \zonbcnv vuvg sxtuty zdhmiow lmud cuegzg\n\
- \bxgft mxhzrh unqd pqpsnce khykn qlb oujdxpq pxrd jzxjuxr tij\n\
- \qss mqirowz ijjswjm jjer utwn kuedqxx bxshuok qkfag dmfwcr\n\
- \jgln zdohd xitfbge xbokj xxeuv wqhvhjo erg cua fhc mhwy\n\
- \euo ousht ipxt tpzq vnbmlo wvbjpb yjg bwpjbv nzvsea aerhsqv\n\
- \axhmi bcf zdx vplso xhmai qsk psolv\n\
- \ydnpmyo pfba zmo nat ykwxvm ydnpmyo rtd uuvqqr hcfccbd rtd\n\
- \ytp guw ydmyf rww oucmpf gemhpj labc\n\
- \edpbefn awgg qzpe aat cupig\n\
- \mmi ghdaoh ibx fbyj gge vmmssen nplt mmqcra omcvm uwa fxypxfc\n\
- \kjaw mtijne cfmsigd zwcjjd ajxjlqr tbp bnilc\n\
- \fse ele vcsyiv bfe udny vznrao mgrjfgw\n\
- \hadl nikvvpf gmdg bkmgt ugj\n\
- \xkis qmr cgz nresp gms zrii coxkke vfsqiil\n\
- \wmicbf bkk wcwklfg vpcbeg kfmjab vabc dax tnao tnao fvvzeyq fqm\n\
- \bct tvj tra soo stqao kqua ikupoy wulcu nauxkkb pvqxy bfu\n\
- \wpz txdduxq gaehfki kxo lvjzpxu iqon swr eyihl nbbec\n\
- \fuphnbj bdtz huwu zdtb ilgzpa uyaut vpy viff tuuya\n\
- \cvusbh bgy apsao qsupha\n\
- \jtzlbd ljfvh wkjrw xsah sef jygb pqym zbcwok zdmug qpym\n\
- \hbibuax iorqc dqjrs daeb iorqc qiw sagyt rkc sagyt khbr\n\
- \shz mgn pqrdbm jvace gfhnq ann zosq wdwzmuf kswsg dzt brlavyo\n\
- \qiw cdvwds dckpruy pybjra lfvgfn cwj bajtud pojehb rzrzvwe\n\
- \txfyk zkgeeu zkgeeu zkgeeu wskcv nccoz\n\
- \eettnxq gbgr uiqonyz wqtgs ozfjbn gbgr\n\
- \svd thmmr rbbtxn sxkq isxlnhf tamdlbe bqrgvu nmpvlkc spko\n\
- \qmn rspbjme ikjddkq kdb ugpegi egipgu\n\
- \ufffijo revqpep zfw kwd pnya blqo rnntzx anpy\n\
- \piaeyf vbeye uuqd vbeye\n\
- \hamd hap ekk lgla twto\n\
- \isniinr crz sjpmfxn uskwj\n\
- \lzeofk tavbq ijcglqy lvy jliqcyg lwlip\n\
- \uhyyyw itlrf tdc iabeocv jzwnjh vqxll nefze pyrxmx eispxnm hzlksce\n\
- \ucuh mlam bhyej rgzkew ctbo iswqnvg\n\
- \ytmb toppqgp ytmb gqgpr gqgpr vps ebv\n\
- \eavn atkqltv bjvojs kaskr vqltakt uiktr xglc eyb rkkas fhnf eaorqm\n\
- \jmfipc ujggeh hdxpfa xtab ydkibi ycxn ujggeh icheh vpznael oprbf\n\
- \xazqxg khlemu awh uwz vhnixk vdcty hkk\n\
- \gcl kayi hfozask grpseyn zviy tzoum qywnr wqkhq\n\
- \ctrrcpw wqfbylp wqfbylp wqfbylp\n\
- \gtk lqohf hqeaku mdj zrfkmxn bcqgf msing\n\
- \luhpel kexokpx vojap ldaexs bbbtz\n\
- \oimnqb esg zyjmbfh dfyhcf khpo zjtgm yelztbs ugj zjtgm mxro xyfxpk\n\
- \dgtsu vvk wwfugbx aai zlxab beyxcg bpx chc bnxui\n\
- \irrwbo orwibr lqt qtl tqknh\n\
- \ihjsg ihjsg powwy pycyqo ihjsg\n\
- \xdcu outh fnqrc eihkss bdylm sjunib eihkss\n\
- \jpnw ycimse rffu ismyce uhxl feai\n\
- \yyodnh dvwshkx vulh pvxj ydhyno hyodny\n\
- \vuuweg pfguvyu orhei orhei wrm amkr xecja lmnveth\n\
- \wriwe xgtnvj tdmxf gadtqh bezjvz lifu\n\
- \euft tchbm xmtlwji tchbm\n\
- \cfi zudn zludl pwiu axe psed\n\
- \dbtfwf ajxcudj uaxdjcj dxuajjc zouyy\n\
- \fmycmej bqhe jyfecmm kkrv kcdvjoy\n\
- \grtb uzs rkxzt hivhic brtg hwyc lsl iivhch qbcp\n\
- \ymn xfpka hqm sldz dblvsoe\n\
- \qrcapma hntgmy difrkpk difrkpk xlsph\n\
- \flvqh akcw boxrz ywhq boxrz esnxzv boxrz\n\
- \zrvh jskaw mfs fkj\n\
- \abveb qxfnlfq abveb kbwiyvd abveb\n\
- \pgarl nbfrenx rnxgx bdlkix liltdm dzcokeg fubupcg iwp xfayp obfaz nevfw\n\
- \nuhvaci blyv fcsp adlanka sjy syj ysxl\n\
- \avwakn dkoya yzuszuk lqrr oqfyd dmgbhd lqrr\n\
- \pxa mcvtoug nlweso yffqc dtuagcd ovvrkz ggfhw wnlseo bpqbn ohxzs rxzo\n\
- \djkcl kbgyfir ogquot uoqotg jtmyd ohudvle xrnbt yvsln wykqt hntc xlrhqrb\n\
- \ykt tkxfmd exas kty\n\
- \zebstke msbbndq itmli ubexmht vekvd xbmb iajbj wac sta\n\
- \ptdg oftwo goiulah tfmsrqs jffxvnv ozaluj qlhqjy wyffa\n\
- \xeq ezmlpw xgno xorvfo yzq vwif wsi\n\
- \hdove hqbzhu pjrxlj uafuh rizlb advmkca\n\
- \jzk ddoisdh tfjh yuvikps ixpkf hnu\n\
- \kixa djx uksr ogxty dxj clda ukrs\n\
- \xgiy diwbvn vphdbg qnelyz tqptqig lenyzq ecsswj\n\
- \alx awj fpasmmg zukuh qaanvb too nvskuk too gnria\n\
- \suo suo brw nazq suo dqv\n\
- \tan uxiz oqa xyezcd lsaicjr bosiak rmmh\n\
- \bidpomf dimcj qekero wbrc lewt kmgmlao\n\
- \bciacj eye lxfpef cbdshd dhdsbc qwnhil iuokc\n\
- \zduefht lrgfjn nclksm wpjpjr hkeqd oprsjcw\n\
- \chhdr bram swdfjr yikqra xkzsloc otptp agec hhdrc uofljf toppt wpbyrwo\n\
- \bwlpb nishr knnrysj bvr ftnb iedskch weo\n\
- \czo hsfp wblh cru kzalun intt\n\
- \jvob rppz rkwv hgyhrqg\n\
- \sgo hued jnygge izf ztan kjgpcn fagff jsi ijcxzoi tgqjjp tgqjjp\n\
- \ltjq zidjy rfmy yevuaa nlhfyg xytdtle wsqvzzx wfflboo nawhv golhf xhsti\n\
- \bmtzlml xcbsquq vnfsux voep lkss ioim\n\
- \ntfffh gcncwu mmymn wkwlswa gcncwu iaeyumz\n\
- \kcgdm rbaau cwsoya pznnnn xzz zbbdlhw zxuelq xzz pjeq\n\
- \xrmnuct kwvykx khxr ioua xnmtrcu xrnctum ujq imnt ecee\n\
- \xjsgx fby fby fby ggtpgdm jqvuj qshewki tkml ymsazcq\n\
- \sdbyhwg kewtrte novhdcp wbuaoh dtytgtx zez whygbds hpg\n\
- \tjvaqo yrycda yrycda ldbp yrycda\n\
- \kloi tmsocmx dza sqtxc wgevs zlevs vtm\n\
- \ftnx drvdm ryjfdgw nerynh cwfjpa mddvr\n\
- \wsqjyn svg ncw aesn hvuq vybajti aesn bql atxhp ipu\n\
- \eye romgxj gumuke jwi jrf dtt kcj wmg waw\n\
- \ptltud oymklv fgnmbc ete apanovb vpt vyospi\n\
- \clkguhu rbxs lxtnmy ferdx qbmrpg pvojnj zbcffbp\n\
- \itngp dvtlq fzxp cxrf gbxxqp aafls pfe bpxgxq\n\
- \nmikrui ddsq srfilr gnuvghu mwnacz nlbdm zcjm uylgev umzu mftz nmikrui\n\
- \bow jmnxyen bow hvz\n\
- \lksibxk lefzh lksibxk nkxsi nkxsi pldvhk\n\
- \osjlzns pihvr zpeu zxjgjb xplykfk xplykfk\n\
- \hajmfss cardd kaddjw uicfde taue\n\
- \rgwdjra sgifh ggt mpzx usghkos oob fvzx ghnyxr sblcif\n\
- \dtu gnihpry kjdpiny xvax itmluk fxvgaap bei xuq wzcy rhb hailtgo\n\
- \wwob ueldq ueldq glxc umimwv onu dxhmhis ebottoa lnysfiu\n\
- \zfbyi eyq etaj idpbkf\n\
- \qshcfjb ozzqigv raztm ymcv sgivwoc kightf dcaglk udah fdm\n\
- \jmxr jrcnck enffwfl jycc jmxr cylnigo enffwfl\n\
- \bkslhv tykqw tykqw mbeqrbt tykqw\n\
- \vogf nhqltpt nhqltpt vogf kpc\n\
- \ryayz ddktu rfhkmx xok xninjcm ijcrw fxu\n\
- \cmezfj zaamjrs whlcuoo mug lcaqhkb ymkdci qexa onhgk pgy\n\
- \hcrcok qri fki wbiog ptj pmgtdt\n\
- \xsl mpfxwbz bmzxpwf hrysu bmfxwzp xfja\n\
- \gybzho ktokndy rzkbr jcnp ahicq weccg pgrodkt che vaglyn omhmpo\n\
- \vdv bngjox srs faymg xrmf enseu aygfm gvsd\n\
- \nuzi xodkbag eevovl bfjuv nuzi xmejqn\n\
- \kcswegw bpa dgil insf insf\n\
- \stg tklrut poi knurfpf\n\
- \pcs dgirfie yep lvkfk ype hntt athvad clfybsq ofjhegj epy qwawns\n\
- \wjtpgd wjtpgd vxnapp mwyfsm vxnapp rvcswcs jksa\n\
- \ckzslrg wdzeimw cqhp nfgk zgukvd yyt tra erkx wdzeimw\n\
- \hsww avl vkmzej hsww\n\
- \mum oczj jfew rag zjoc wjfe yqynjqt cbkcsgo mri\n\
- \vjhfqdi vjhfqdi npfa pzdmy utlyw bwvbfm nqdv iiap ygpky bwvbfm eocya\n\
- \ewkqi ckb yviuro mqz vtrdam yzkqzv ppbj lhmj blkafo juxvwke lvewc\n\
- \ljrewgx sutnb hfsavbu jofr ltml mjzkzz nmjii sutnb eonegt\n\
- \cxzv nepyrb wmejdo vwqi aeqys\n\
- \sbx fmne obzdz rdnfb gmb sbx ykcae hbzom ncwju rhpiao obzdz\n\
- \lsgfun cbmfjwk fya ktzxbwt\n\
- \ica bpsk bwjwkp obloxdx uwoqdo bnnhjuc tlsx qtaacp bdooxxl jamy ade\n\
- \psus wmtkg ikvfx fkvesj upqlhfs ueje nyt abxvo\n\
- \adlbl hzskbrp ooht nps\n\
- \wtcgnvy nvqtvx tvgnycw ntvcygw kkxcp zyjmpbh\n\
- \xfxww xsddqe ewvmgw qxqwy wpabtz ppe zuiw zubcc onaqii\n\
- \kkaeec xhcakul wrrvi dtlqfy ahqdilw bnt gwimw espaivx nam yfv\n\
- \lxz jtc nkwgz nbgsao olsck emtltf xidwcvm lcjxq\n\
- \eav dzh hnbp hnbp yeg\n\
- \egaq yvat kavsige csar zsi sptai\n\
- \pofijc ibdnoe caoazp azlnjk dqp chik lowll iby gpvjv ohm\n\
- \ors lexk zcneaj rmesx jman uqkb kvkq zfufmn\n\
- \qgsyzxd hlm juerg ortfzw hxjzg\n\
- \fxwy lcoc fyxw pzhynp yfn zdzrz\n\
- \datmws ckwghgr gbtyf lqrpfgl mbgpd dyjilr fgybt hxpg\n\
- \mxw facxdnu wxm urltwtf qfo wtpwrj\n\
- \esa srypq jauwv dpm wdgqq hrke icvudq bdmubb ellhfjh ttpjjd gxmg\n\
- \gvwvqwj cbzzuvj eckube adqinpa djutlue wcpw vrt ucqwu ekruwsn\n\
- \fhj fst zmtb yhwk dxlbozs fcb vjvuxin dxlbozs rixdvu\n\
- \egfoep cvq icd prwj icyg\n\
- \aojaa ezmcuf udreyi bja cyrtpl wjl\n\
- \gjeka bsbufp tbqqq vbmnqg sfqtgac odhq xzsxt\n\
- \yse gujdr ugjdr sye\n\
- \tax hntqw phf eixjwfh qkylnu nkyuql ugsuj\n\
- \wyh egum zizhfc jrq htbyug lop dsu\n\
- \exh vfdoosj ajrna jbiaz lqsgvks xklqgjv abtmdud\n\
- \juqc ormfa sab tucsfln detqfo feg kifsion juqc ovhra\n\
- \hvcrh oddhme omzmu vmy she xulvfa fecmgi\n\
- \ayo gspge nkmy yblsj lrsre nkmy pwocjz gdexqqx ovovm\n\
- \acy sqcz ijl htt yjsi rly vea bck\n\
- \bniafe yore xnh rkcfd hxfuzw xlr nkzmmcs ekwggiu kgoboi wfuzxh hwfxuz\n\
- \weq crkeq cccphe dtozviy kzkkdr yku cephcc ctq zbau dewpi\n\
- \vfla rzpl bnmx uvggon foivrb fval\n\
- \ziaove lawkpdn ddwl sxj krroj rqmffxv babb\n\
- \bdw dsifr kuueet hugddwt piz dwb sjixveg kmsoknq\n\
- \czl feyxf soyvbj tnmpjn kklwi akx nqepntc\n\
- \nrmhc tkkn jrxgc jrxgc tkkn\n\
- \ufzn mrhiapi qrme kjlf qrme xpp qrme loyzizz xqm coli\n\
- \qvaoye mysv ydfxr iixrw\n\
- \dql tqarux fxqfn haoinu lyati xml\n\
- \kyve obatly dgfjt fjz sqrz xlbst lgwlt zovih aepy otrpl oifid\n\
- \ymawam afgye lcnpkmv feilfws vonseh rxrdco\n\
- \tqij kuawg dmova slds imdtb sjsafo ffkzzl pxxenva wuakg efbgx\n\
- \yrwoaos vpw ijjpua jnbxl sev yvgdxzr mpqa vpe lboh sev\n\
- \krwdtd uglxtcz mljcgdk lqj fgpfle nuui cqk exr nuu oyn\n\
- \dwd nwt idhclm vgkh rpubq wybhapp\n\
- \hskhgpy gzvz jztbr jwv vcx vdjmnjr jrsp\n\
- \ikml ceuhcng biu zoo gra bnnforx abzan hwsmd lmki tsl yvogo\n\
- \kqfc younaz azvgfz gesajr tmwxvyb vmcdu dclwh rfjwhic slfym\n\
- \pbrhjml rsacryg jga qvgks neh fcq qmi mwb juezk mjteeg alkb\n\
- \pcj ujstl fkrqm eeczrle hbkcvm upbo mrb qrspjt\n\
- \jbq rrk xjl rgokbnx hor ogg szxqu hysy vqj piorq wtrtrdk\n\
- \bnq ntvhcrf vrm puer kde xaxkja sfxgjf\n\
- \pgcicus hqeqkkx xqekqhk qqkxhke\n\
- \puquxi hmeaehh oxe tasipw qzyg hyvy wcmpwe\n\
- \hvs fxq wvfy zjepsl dvrfxnc xnvg\n\
- \xle crcuc qkhnv crcuc oedez bjw pmwq\n\
- \xzzpiy cjwss jwscs apb bpa\n\
- \ydjhhf yeltadb lwi cjdcb ovaox xrdm vkxub\n\
- \zax xza admbc lvpzfeh auxn rwasj\n\
- \kebx eild nrskdr meja jxczomh gcne"
+        input = "0\n\
+                 \2\n\
+                 \0\n\
+                 \0\n\
+                 \-2\n\
+                 \-2\n\
+                 \-1\n\
+                 \-4\n\
+                 \-5\n\
+                 \-6\n\
+                 \0\n\
+                 \1\n\
+                 \-5\n\
+                 \-3\n\
+                 \-10\n\
+                 \-8\n\
+                 \-2\n\
+                 \-13\n\
+                 \-14\n\
+                 \-15\n\
+                 \-8\n\
+                 \-5\n\
+                 \-13\n\
+                 \-16\n\
+                 \-21\n\
+                 \-3\n\
+                 \-14\n\
+                 \-23\n\
+                 \-9\n\
+                 \-11\n\
+                 \-19\n\
+                 \-29\n\
+                 \-2\n\
+                 \-20\n\
+                 \-28\n\
+                 \1\n\
+                 \-3\n\
+                 \-35\n\
+                 \1\n\
+                 \-20\n\
+                 \-4\n\
+                 \-37\n\
+                 \-11\n\
+                 \-27\n\
+                 \-33\n\
+                 \-43\n\
+                 \-20\n\
+                 \-5\n\
+                 \-9\n\
+                 \-22\n\
+                 \-47\n\
+                 \-5\n\
+                 \-49\n\
+                 \-13\n\
+                 \-22\n\
+                 \-2\n\
+                 \-2\n\
+                 \-51\n\
+                 \-53\n\
+                 \-22\n\
+                 \-38\n\
+                 \-16\n\
+                 \-37\n\
+                 \-30\n\
+                 \-49\n\
+                 \-48\n\
+                 \-35\n\
+                 \-5\n\
+                 \-42\n\
+                 \-21\n\
+                 \-31\n\
+                 \-61\n\
+                 \-43\n\
+                 \-31\n\
+                 \-72\n\
+                 \-35\n\
+                 \-3\n\
+                 \-31\n\
+                 \-65\n\
+                 \-78\n\
+                 \2\n\
+                 \-17\n\
+                 \-80\n\
+                 \-10\n\
+                 \-6\n\
+                 \-68\n\
+                 \-69\n\
+                 \-44\n\
+                 \-71\n\
+                 \-78\n\
+                 \-89\n\
+                 \-19\n\
+                 \-22\n\
+                 \-28\n\
+                 \-21\n\
+                 \-7\n\
+                 \-54\n\
+                 \-63\n\
+                 \-48\n\
+                 \-70\n\
+                 \-73\n\
+                 \-52\n\
+                 \-47\n\
+                 \-49\n\
+                 \-2\n\
+                 \-91\n\
+                 \-65\n\
+                 \-76\n\
+                 \-58\n\
+                 \-47\n\
+                 \-45\n\
+                 \-21\n\
+                 \-11\n\
+                 \-112\n\
+                 \-80\n\
+                 \-93\n\
+                 \-98\n\
+                 \-41\n\
+                 \-54\n\
+                 \-105\n\
+                 \-36\n\
+                 \-102\n\
+                 \-75\n\
+                 \-102\n\
+                 \-67\n\
+                 \-100\n\
+                 \-41\n\
+                 \-56\n\
+                 \-19\n\
+                 \-90\n\
+                 \-5\n\
+                 \-66\n\
+                 \-41\n\
+                 \-3\n\
+                 \-32\n\
+                 \-95\n\
+                 \-65\n\
+                 \-44\n\
+                 \-1\n\
+                 \1\n\
+                 \-62\n\
+                 \-7\n\
+                 \-29\n\
+                 \-61\n\
+                 \-7\n\
+                 \1\n\
+                 \-63\n\
+                 \0\n\
+                 \-20\n\
+                 \-58\n\
+                 \-58\n\
+                 \-7\n\
+                 \-54\n\
+                 \-80\n\
+                 \-48\n\
+                 \-51\n\
+                 \-151\n\
+                 \-141\n\
+                 \-37\n\
+                 \-122\n\
+                 \-130\n\
+                 \-132\n\
+                 \-158\n\
+                 \-117\n\
+                 \-63\n\
+                 \-103\n\
+                 \-130\n\
+                 \-116\n\
+                 \-130\n\
+                 \-63\n\
+                 \-134\n\
+                 \-131\n\
+                 \-59\n\
+                 \-30\n\
+                 \-33\n\
+                 \-38\n\
+                 \-127\n\
+                 \-31\n\
+                 \-76\n\
+                 \-35\n\
+                 \-162\n\
+                 \-132\n\
+                 \-121\n\
+                 \-31\n\
+                 \-28\n\
+                 \-2\n\
+                 \-29\n\
+                 \-148\n\
+                 \-156\n\
+                 \-168\n\
+                 \2\n\
+                 \-33\n\
+                 \-85\n\
+                 \-25\n\
+                 \-18\n\
+                 \-167\n\
+                 \-152\n\
+                 \-22\n\
+                 \-38\n\
+                 \-136\n\
+                 \-83\n\
+                 \-46\n\
+                 \-73\n\
+                 \-139\n\
+                 \-15\n\
+                 \-185\n\
+                 \-197\n\
+                 \-125\n\
+                 \-159\n\
+                 \-80\n\
+                 \-161\n\
+                 \-158\n\
+                 \-82\n\
+                 \-36\n\
+                 \-52\n\
+                 \-210\n\
+                 \-200\n\
+                 \-90\n\
+                 \-199\n\
+                 \-70\n\
+                 \-135\n\
+                 \-195\n\
+                 \-54\n\
+                 \-156\n\
+                 \-46\n\
+                 \-74\n\
+                 \-73\n\
+                 \-221\n\
+                 \-96\n\
+                 \-37\n\
+                 \-189\n\
+                 \-27\n\
+                 \-209\n\
+                 \-30\n\
+                 \-50\n\
+                 \-4\n\
+                 \-74\n\
+                 \-15\n\
+                 \-184\n\
+                 \2\n\
+                 \-78\n\
+                 \-33\n\
+                 \-37\n\
+                 \-99\n\
+                 \-65\n\
+                 \-196\n\
+                 \-32\n\
+                 \-36\n\
+                 \-188\n\
+                 \-62\n\
+                 \-5\n\
+                 \-244\n\
+                 \-116\n\
+                 \-150\n\
+                 \-118\n\
+                 \-124\n\
+                 \-54\n\
+                 \-28\n\
+                 \-43\n\
+                 \-208\n\
+                 \-205\n\
+                 \-95\n\
+                 \-90\n\
+                 \-129\n\
+                 \-242\n\
+                 \-70\n\
+                 \-144\n\
+                 \-64\n\
+                 \-247\n\
+                 \-170\n\
+                 \-213\n\
+                 \-40\n\
+                 \-173\n\
+                 \-90\n\
+                 \-77\n\
+                 \-139\n\
+                 \-56\n\
+                 \-70\n\
+                 \-120\n\
+                 \-9\n\
+                 \-68\n\
+                 \-78\n\
+                 \-7\n\
+                 \-123\n\
+                 \-103\n\
+                 \-173\n\
+                 \-254\n\
+                 \-249\n\
+                 \-246\n\
+                 \-139\n\
+                 \-192\n\
+                 \-92\n\
+                 \-204\n\
+                 \-71\n\
+                 \-199\n\
+                 \-56\n\
+                 \-63\n\
+                 \-231\n\
+                 \-23\n\
+                 \-115\n\
+                 \-240\n\
+                 \-51\n\
+                 \-200\n\
+                 \-184\n\
+                 \-287\n\
+                 \-98\n\
+                 \-7\n\
+                 \-81\n\
+                 \-275\n\
+                 \-262\n\
+                 \-260\n\
+                 \-32\n\
+                 \-99\n\
+                 \-28\n\
+                 \-199\n\
+                 \-160\n\
+                 \-176\n\
+                 \-210\n\
+                 \-244\n\
+                 \-162\n\
+                 \-82\n\
+                 \-35\n\
+                 \-276\n\
+                 \-71\n\
+                 \-114\n\
+                 \-222\n\
+                 \-294\n\
+                 \-28\n\
+                 \-122\n\
+                 \-110\n\
+                 \-178\n\
+                 \-264\n\
+                 \-239\n\
+                 \-104\n\
+                 \-85\n\
+                 \-11\n\
+                 \-117\n\
+                 \-15\n\
+                 \-69\n\
+                 \-275\n\
+                 \-289\n\
+                 \-212\n\
+                 \1\n\
+                 \-296\n\
+                 \-285\n\
+                 \-9\n\
+                 \-95\n\
+                 \-149\n\
+                 \-197\n\
+                 \-152\n\
+                 \-141\n\
+                 \-148\n\
+                 \-138\n\
+                 \-173\n\
+                 \-224\n\
+                 \-297\n\
+                 \-299\n\
+                 \-53\n\
+                 \-335\n\
+                 \-36\n\
+                 \-17\n\
+                 \-291\n\
+                 \-25\n\
+                 \-211\n\
+                 \-175\n\
+                 \-104\n\
+                 \-328\n\
+                 \-58\n\
+                 \-15\n\
+                 \-198\n\
+                 \-102\n\
+                 \-122\n\
+                 \-211\n\
+                 \-74\n\
+                 \-117\n\
+                 \-205\n\
+                 \-143\n\
+                 \-353\n\
+                 \-187\n\
+                 \-323\n\
+                 \-172\n\
+                 \-133\n\
+                 \-170\n\
+                 \-41\n\
+                 \-92\n\
+                 \-84\n\
+                 \-72\n\
+                 \-352\n\
+                 \-278\n\
+                 \-164\n\
+                 \-124\n\
+                 \-175\n\
+                 \-113\n\
+                 \-175\n\
+                 \-152\n\
+                 \-160\n\
+                 \-33\n\
+                 \-126\n\
+                 \-226\n\
+                 \-237\n\
+                 \-135\n\
+                 \-156\n\
+                 \-190\n\
+                 \-378\n\
+                 \-168\n\
+                 \-271\n\
+                 \-240\n\
+                 \-111\n\
+                 \-398\n\
+                 \-91\n\
+                 \-243\n\
+                 \-336\n\
+                 \-311\n\
+                 \-368\n\
+                 \-396\n\
+                 \-202\n\
+                 \-262\n\
+                 \-18\n\
+                 \-303\n\
+                 \-363\n\
+                 \-67\n\
+                 \-36\n\
+                 \-284\n\
+                 \-404\n\
+                 \-120\n\
+                 \-97\n\
+                 \-387\n\
+                 \-26\n\
+                 \-135\n\
+                 \-112\n\
+                 \-325\n\
+                 \-82\n\
+                 \-53\n\
+                 \-307\n\
+                 \-410\n\
+                 \-276\n\
+                 \-384\n\
+                 \-64\n\
+                 \-60\n\
+                 \-412\n\
+                 \-335\n\
+                 \-356\n\
+                 \-82\n\
+                 \-134\n\
+                 \-251\n\
+                 \-408\n\
+                 \-342\n\
+                 \-9\n\
+                 \-73\n\
+                 \-27\n\
+                 \-388\n\
+                 \-434\n\
+                 \-80\n\
+                 \-231\n\
+                 \-114\n\
+                 \0\n\
+                 \-64\n\
+                 \-325\n\
+                 \-251\n\
+                 \-153\n\
+                 \-109\n\
+                 \1\n\
+                 \-92\n\
+                 \-167\n\
+                 \-89\n\
+                 \-454\n\
+                 \-154\n\
+                 \-13\n\
+                 \-283\n\
+                 \-231\n\
+                 \-357\n\
+                 \-244\n\
+                 \-324\n\
+                 \-134\n\
+                 \-41\n\
+                 \-380\n\
+                 \-169\n\
+                 \-247\n\
+                 \-301\n\
+                 \-297\n\
+                 \-388\n\
+                 \-304\n\
+                 \-135\n\
+                 \-403\n\
+                 \-168\n\
+                 \-314\n\
+                 \-117\n\
+                 \-281\n\
+                 \-76\n\
+                 \-473\n\
+                 \-281\n\
+                 \-322\n\
+                 \-79\n\
+                 \-39\n\
+                 \-129\n\
+                 \-432\n\
+                 \-452\n\
+                 \-183\n\
+                 \-164\n\
+                 \-76\n\
+                 \-382\n\
+                 \-306\n\
+                 \-58\n\
+                 \-126\n\
+                 \-141\n\
+                 \-4\n\
+                 \-3\n\
+                 \-201\n\
+                 \-480\n\
+                 \-443\n\
+                 \-313\n\
+                 \-361\n\
+                 \-279\n\
+                 \-250\n\
+                 \-38\n\
+                 \-1\n\
+                 \-340\n\
+                 \-138\n\
+                 \-69\n\
+                 \-462\n\
+                 \-32\n\
+                 \-68\n\
+                 \-19\n\
+                 \-31\n\
+                 \-271\n\
+                 \-86\n\
+                 \-141\n\
+                 \-331\n\
+                 \-412\n\
+                 \-29\n\
+                 \-369\n\
+                 \-518\n\
+                 \-103\n\
+                 \-502\n\
+                 \-24\n\
+                 \-67\n\
+                 \-130\n\
+                 \-247\n\
+                 \-331\n\
+                 \-535\n\
+                 \-77\n\
+                 \-305\n\
+                 \-153\n\
+                 \-44\n\
+                 \-382\n\
+                 \-309\n\
+                 \-162\n\
+                 \-430\n\
+                 \-480\n\
+                 \-25\n\
+                 \-431\n\
+                 \-78\n\
+                 \-442\n\
+                 \-549\n\
+                 \-184\n\
+                 \-523\n\
+                 \-94\n\
+                 \-380\n\
+                 \-227\n\
+                 \-526\n\
+                 \-209\n\
+                 \-508\n\
+                 \-129\n\
+                 \-36\n\
+                 \-510\n\
+                 \-310\n\
+                 \-133\n\
+                 \-145\n\
+                 \-146\n\
+                 \-244\n\
+                 \-245\n\
+                 \-541\n\
+                 \-362\n\
+                 \-7\n\
+                 \-103\n\
+                 \-565\n\
+                 \-209\n\
+                 \2\n\
+                 \-140\n\
+                 \-51\n\
+                 \-572\n\
+                 \-28\n\
+                 \-354\n\
+                 \-525\n\
+                 \-148\n\
+                 \-79\n\
+                 \-176\n\
+                 \-34\n\
+                 \-396\n\
+                 \-162\n\
+                 \-374\n\
+                 \-448\n\
+                 \-76\n\
+                 \-87\n\
+                 \-136\n\
+                 \-584\n\
+                 \-179\n\
+                 \-230\n\
+                 \-490\n\
+                 \-361\n\
+                 \-333\n\
+                 \-328\n\
+                 \-34\n\
+                 \-524\n\
+                 \-273\n\
+                 \-195\n\
+                 \-32\n\
+                 \-520\n\
+                 \-260\n\
+                 \-506\n\
+                 \-576\n\
+                 \-422\n\
+                 \-115\n\
+                 \-65\n\
+                 \-285\n\
+                 \-314\n\
+                 \-322\n\
+                 \-146\n\
+                 \-287\n\
+                 \-251\n\
+                 \-585\n\
+                 \-326\n\
+                 \-77\n\
+                 \-250\n\
+                 \-321\n\
+                 \-334\n\
+                 \-560\n\
+                 \-455\n\
+                 \-523\n\
+                 \-90\n\
+                 \-234\n\
+                 \-343\n\
+                 \-457\n\
+                 \-395\n\
+                 \-173\n\
+                 \-560\n\
+                 \-474\n\
+                 \-118\n\
+                 \-244\n\
+                 \-263\n\
+                 \-493\n\
+                 \-597\n\
+                 \-232\n\
+                 \-237\n\
+                 \-619\n\
+                 \-372\n\
+                 \-416\n\
+                 \-142\n\
+                 \-93\n\
+                 \-546\n\
+                 \-538\n\
+                 \-198\n\
+                 \-574\n\
+                 \-250\n\
+                 \-491\n\
+                 \-168\n\
+                 \-47\n\
+                 \-247\n\
+                 \-127\n\
+                 \-641\n\
+                 \-228\n\
+                 \-192\n\
+                 \-545\n\
+                 \-543\n\
+                 \-172\n\
+                 \-220\n\
+                 \-277\n\
+                 \-647\n\
+                 \-87\n\
+                 \-198\n\
+                 \-450\n\
+                 \-247\n\
+                 \-15\n\
+                 \-406\n\
+                 \-562\n\
+                 \-335\n\
+                 \-436\n\
+                 \-665\n\
+                 \-362\n\
+                 \-211\n\
+                 \-582\n\
+                 \-178\n\
+                 \-523\n\
+                 \-232\n\
+                 \-287\n\
+                 \-635\n\
+                 \-33\n\
+                 \-666\n\
+                 \-577\n\
+                 \-54\n\
+                 \-509\n\
+                 \-271\n\
+                 \-561\n\
+                 \-491\n\
+                 \-512\n\
+                 \-212\n\
+                 \-269\n\
+                 \-473\n\
+                 \-460\n\
+                 \-587\n\
+                 \-209\n\
+                 \-538\n\
+                 \-14\n\
+                 \-303\n\
+                 \-360\n\
+                 \-275\n\
+                 \-125\n\
+                 \-373\n\
+                 \-108\n\
+                 \-31\n\
+                 \-314\n\
+                 \-639\n\
+                 \-220\n\
+                 \-52\n\
+                 \-378\n\
+                 \-398\n\
+                 \-369\n\
+                 \-594\n\
+                 \-204\n\
+                 \-423\n\
+                 \-441\n\
+                 \-447\n\
+                 \-27\n\
+                 \-495\n\
+                 \-595\n\
+                 \-352\n\
+                 \-388\n\
+                 \-127\n\
+                 \-424\n\
+                 \-609\n\
+                 \-435\n\
+                 \-626\n\
+                 \-191\n\
+                 \-46\n\
+                 \-363\n\
+                 \-15\n\
+                 \-557\n\
+                 \-433\n\
+                 \-53\n\
+                 \-680\n\
+                 \-129\n\
+                 \-462\n\
+                 \-40\n\
+                 \-598\n\
+                 \-246\n\
+                 \-468\n\
+                 \-600\n\
+                 \-351\n\
+                 \-409\n\
+                 \-89\n\
+                 \-732\n\
+                 \-178\n\
+                 \-472\n\
+                 \-335\n\
+                 \-622\n\
+                 \-563\n\
+                 \-322\n\
+                 \-261\n\
+                 \-63\n\
+                 \-671\n\
+                 \-291\n\
+                 \-591\n\
+                 \-518\n\
+                 \-373\n\
+                 \-615\n\
+                 \-727\n\
+                 \-553\n\
+                 \-166\n\
+                 \-108\n\
+                 \-723\n\
+                 \-77\n\
+                 \-736\n\
+                 \-364\n\
+                 \-765\n\
+                 \-49\n\
+                 \-41\n\
+                 \-99\n\
+                 \-134\n\
+                 \-684\n\
+                 \-281\n\
+                 \-530\n\
+                 \-545\n\
+                 \-372\n\
+                 \-570\n\
+                 \-48\n\
+                 \-288\n\
+                 \-583\n\
+                 \-421\n\
+                 \-601\n\
+                 \-162\n\
+                 \-176\n\
+                 \-414\n\
+                 \-735\n\
+                 \-195\n\
+                 \-786\n\
+                 \-656\n\
+                 \-488\n\
+                 \-744\n\
+                 \-256\n\
+                 \-345\n\
+                 \-152\n\
+                 \-44\n\
+                 \-29\n\
+                 \1\n\
+                 \-582\n\
+                 \-30\n\
+                 \-351\n\
+                 \-379\n\
+                 \-23\n\
+                 \-48\n\
+                 \-737\n\
+                 \-293\n\
+                 \-525\n\
+                 \-73\n\
+                 \-79\n\
+                 \-531\n\
+                 \-775\n\
+                 \-706\n\
+                 \-59\n\
+                 \-74\n\
+                 \-805\n\
+                 \-311\n\
+                 \-544\n\
+                 \-33\n\
+                 \-603\n\
+                 \-454\n\
+                 \-700\n\
+                 \-506\n\
+                 \-489\n\
+                 \-617\n\
+                 \-485\n\
+                 \-267\n\
+                 \-794\n\
+                 \-13\n\
+                 \-707\n\
+                 \-557\n\
+                 \-368\n\
+                 \-730\n\
+                 \-696\n\
+                 \-728\n\
+                 \-167\n\
+                 \-413\n\
+                 \-639\n\
+                 \-705\n\
+                 \-391\n\
+                 \-11\n\
+                 \-195\n\
+                 \-416\n\
+                 \-788\n\
+                 \-295\n\
+                 \-768\n\
+                 \-192\n\
+                 \-2\n\
+                 \-771\n\
+                 \-675\n\
+                 \-687\n\
+                 \-198\n\
+                 \-568\n\
+                 \-663\n\
+                 \-302\n\
+                 \-732\n\
+                 \-265\n\
+                 \-796\n\
+                 \-370\n\
+                 \-18\n\
+                 \-579\n\
+                 \-771\n\
+                 \-349\n\
+                 \-365\n\
+                 \-214\n\
+                 \-598\n\
+                 \-314\n\
+                 \-752\n\
+                 \-315\n\
+                 \-815\n\
+                 \-487\n\
+                 \-511\n\
+                 \-126\n\
+                 \-6\n\
+                 \-146\n\
+                 \-353\n\
+                 \-787\n\
+                 \-204\n\
+                 \-330\n\
+                 \-517\n\
+                 \-456\n\
+                 \-805\n\
+                 \-4\n\
+                 \-500\n\
+                 \-150\n\
+                 \-242\n\
+                 \-833\n\
+                 \-804\n\
+                 \-663\n\
+                 \-554\n\
+                 \-41\n\
+                 \-607\n\
+                 \-121\n\
+                 \-762\n\
+                 \-892\n\
+                 \-249\n\
+                 \-405\n\
+                 \-403\n\
+                 \-255\n\
+                 \-457\n\
+                 \-613\n\
+                 \-91\n\
+                 \-157\n\
+                 \-890\n\
+                 \-631\n\
+                 \-908\n\
+                 \-544\n\
+                 \-487\n\
+                 \-813\n\
+                 \-541\n\
+                 \-108\n\
+                 \-147\n\
+                 \-702\n\
+                 \-301\n\
+                 \-430\n\
+                 \-66\n\
+                 \-492\n\
+                 \-902\n\
+                 \-284\n\
+                 \-464\n\
+                 \-784\n\
+                 \-312\n\
+                 \-762\n\
+                 \-588\n\
+                 \-17\n\
+                 \-809\n\
+                 \-436\n\
+                 \-483\n\
+                 \-16\n\
+                 \-410\n\
+                 \-180\n\
+                 \-568\n\
+                 \-37\n\
+                 \-687\n\
+                 \-444\n\
+                 \-619\n\
+                 \-211\n\
+                 \-386\n\
+                 \-673\n\
+                 \-600\n\
+                 \-155\n\
+                 \-558\n\
+                 \-849\n\
+                 \-37\n\
+                 \-717\n\
+                 \-867\n\
+                 \-236\n\
+                 \-98\n\
+                 \-165\n\
+                 \-579\n\
+                 \-677\n\
+                 \-691\n\
+                 \-602\n\
+                 \-878\n\
+                 \-555\n\
+                 \-893\n\
+                 \-773\n\
+                 \-395\n\
+                 \-942\n\
+                 \-661\n\
+                 \-850\n\
+                 \-881\n\
+                 \-485\n\
+                 \-312\n\
+                 \-689\n\
+                 \-258\n\
+                 \-899\n\
+                 \-120\n\
+                 \-227\n\
+                 \-349\n\
+                 \-467\n\
+                 \-404\n\
+                 \-45\n\
+                 \-919\n\
+                 \-329\n\
+                 \-365\n\
+                 \-22\n\
+                 \-462\n\
+                 \-632\n\
+                 \-498\n\
+                 \-873\n\
+                 \-288\n\
+                 \-901\n\
+                 \-655\n\
+                 \-321\n\
+                 \-922\n\
+                 \-882\n\
+                 \-416\n\
+                 \-946\n\
+                 \-320\n\
+                 \-5\n\
+                 \-57\n\
+                 \-352\n\
+                 \-711\n\
+                 \-197\n\
+                 \-705\n\
+                 \-737\n\
+                 \-439\n\
+                 \-39\n\
+                 \-252\n\
+                 \-1002\n\
+                 \-617\n\
+                 \-373\n\
+                 \-605\n\
+                 \-887\n\
+                 \-451\n\
+                 \-824\n\
+                 \-455\n\
+                 \-66\n\
+                 \-619\n\
+                 \-18\n\
+                 \-404\n\
+                 \-64\n\
+                 \-736\n\
+                 \-44\n\
+                 \-381\n\
+                 \-447\n\
+                 \-567\n\
+                 \-877\n\
+                 \-411\n\
+                 \-216\n\
+                 \-635\n\
+                 \-598\n\
+                 \-419\n\
+                 \-577\n\
+                 \-142\n\
+                 \-189\n\
+                 \-917\n\
+                 \-692\n\
+                 \-153\n\
+                 \-2\n\
+                 \-116\n\
+                 \-172\n\
+                 \-423\n\
+                 \-886\n\
+                 \-454\n\
+                 \-492\n\
+                 \-491\n\
+                 \-656\n\
+                 \-832\n\
+                 \-1036\n\
+                 \-468\n\
+                 \-23\n\
+                 \-709\n\
+                 \-292\n\
+                 \-668\n\
+                 \-454\n\
+                 \-478\n\
+                 \-302\n\
+                 \-182\n\
+                 \-677\n\
+                 \-904\n\
+                 \-648\n\
+                 \-513\n\
+                 \-901\n\
+                 \-331\n\
+                 \-750\n\
+                 \-445\n\
+                 \-758\n\
+                 \-842\n\
+                 \-372\n\
+                 \-471\n\
+                 \-109\n\
+                 \-239\n\
+                 \-704\n\
+                 \-817\n\
+                 \-340\n\
+                 \-591\n\
+                 \-40"
     in
-        do print (length (filter uniqueAnagrams (map words (lines input))))
+        do print (traverseMaze (inputToMap (map read (lines input))) 0 0)
+
+inputToMap :: [Int] -> Map.Map Int Int
+inputToMap xs = Map.fromList (zip [0..] xs)
