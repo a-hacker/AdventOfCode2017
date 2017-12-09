@@ -7,5 +7,5 @@ import qualified Data.Set as Set
 
 main :: IO ()
 main = do
-        input <- readFile "input.txt"
-        print (parseGroup (tail input) 0 1)
+    input <- readFile "input.txt"
+    print $ parseGroup (tail input) 0
