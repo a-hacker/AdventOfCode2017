@@ -5,4 +5,4 @@ import Hex
 main :: IO ()
 main = do
     input <- readFile "input.txt"
-    print $ mathDirs (countDirs [0, 0, 0] input)
+    print $ countDirs [0, 0, 0] input 0
