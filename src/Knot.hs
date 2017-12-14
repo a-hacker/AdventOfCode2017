@@ -2,7 +2,8 @@ module Knot where
 
 import Data.List
 import Data.Bits
-import Numeric (showHex)
+import Numeric (showIntAtBase)
+import Data.Char (intToDigit)
 
 getTwisted :: [Int] -> [Int] -> Int -> Int -> [Int]
 getTwisted knot [] offset pos = knot
@@ -29,6 +30,6 @@ hashKnot knot hash
     | length hashSixteen == 1 = hashKnot (drop 16 knot) (hash ++ ('0' : hashSixteen))
     | otherwise               = hashKnot (drop 16 knot) (hash ++ hashSixteen)
     where
-        hashSixteen = showHex (foldl (xor) 0 (take 16 knot)) ""
+        hashSixteen = showIntAtBase 2 intToDigit (foldl (xor) 0 (take 16 knot)) ""
 
 
