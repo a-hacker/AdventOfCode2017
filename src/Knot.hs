@@ -26,10 +26,13 @@ twistKnot knot pos len
 
 hashKnot :: [Int] -> String -> String
 hashKnot [] hash = hash
-hashKnot knot hash
-    | length hashSixteen == 1 = hashKnot (drop 16 knot) (hash ++ ('0' : hashSixteen))
-    | otherwise               = hashKnot (drop 16 knot) (hash ++ hashSixteen)
+hashKnot knot hash = hashKnot (drop 16 knot) (hash ++ leadZeroes(hashSixteen))
     where
         hashSixteen = showIntAtBase 2 intToDigit (foldl (xor) 0 (take 16 knot)) ""
+
+leadZeroes :: String -> String
+leadZeroes x
+    | (length x) < 8 = leadZeroes ('0':x)
+    | otherwise = x
 
 
