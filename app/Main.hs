@@ -1,13 +1,13 @@
 module Main where
 
 import Data.List.Split
-import qualified Data.Sequence as Seq
+import qualified Data.Map as Map
 
-import Spinlock
+import Duet
 
 
 main :: IO ()
 main = do
     input <- readFile "input.txt"
-    print $ scVal 0 0 (Seq.fromList [0])
+    print $ parseInstruction (lines input) 0 0 Map.empty
 
