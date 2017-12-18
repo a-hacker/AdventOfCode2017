@@ -9,5 +9,5 @@ import Duet
 main :: IO ()
 main = do
     input <- readFile "input.txt"
-    print $ parseInstruction (lines input) 0 0 Map.empty
+    print $ runRegisters (PairedExec (lines input) 0 Map.empty []) (PairedExec (lines input) 0 (Map.fromList [('p', 1)]) []) (0, 0) False
 
