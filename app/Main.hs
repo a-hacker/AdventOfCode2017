@@ -9,5 +9,5 @@ import Spinlock
 main :: IO ()
 main = do
     input <- readFile "input.txt"
-    print $ scVal 0 (Seq.fromList [0])
+    print $ scVal 0 0 (Seq.fromList [0])
 
