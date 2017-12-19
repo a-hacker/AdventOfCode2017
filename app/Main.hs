@@ -1,13 +1,15 @@
 module Main where
 
-import Data.List.Split
-import qualified Data.Map as Map
+import Data.Array
 
-import Duet
+import Tubular
 
 
 main :: IO ()
 main = do
     input <- readFile "input.txt"
-    print $ runRegisters (PairedExec (lines input) 0 Map.empty []) (PairedExec (lines input) 0 (Map.fromList [('p', 1)]) []) (0, 0) False
+    let tubeList = lines input
+    let tube = listArray (0, (length tubeList - 1)) [listArray (0, (length x) - 1) x | x <- tubeList]
+    --print $ [length (tube ! x) | x <- [1..200]]
+    print $ parseTube tube South (131, 0) ""
 
