@@ -11,5 +11,5 @@ main = do
     let tubeList = lines input
     let tube = listArray (0, (length tubeList - 1)) [listArray (0, (length x) - 1) x | x <- tubeList]
     --print $ [length (tube ! x) | x <- [1..200]]
-    print $ parseTube tube South (131, 0) ""
+    print $ lengthTube tube South (131, 0) 0
 
