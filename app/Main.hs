@@ -1,15 +1,25 @@
 module Main where
 
-import Data.Array
+import Data.List.Split
+import Data.List
 
-import Tubular
+import Particle
 
 
 main :: IO ()
 main = do
     input <- readFile "input.txt"
-    let tubeList = lines input
-    let tube = listArray (0, (length tubeList - 1)) [listArray (0, (length x) - 1) x | x <- tubeList]
-    --print $ [length (tube ! x) | x <- [1..200]]
-    print $ lengthTube tube South (131, 0) 0
+    let particles = (map parseParticle (lines input))
+    let particleMap = zip (map getManhattanDist (map getAcceleration particles)) [0..(length particles)]
+    print $ [x | x <- particleMap, ((fst x) == (fst(minimum particleMap)))]
 
+parseParticle :: String -> Particle
+parseParticle partDef = do
+    let partialStrs = splitOn ", " partDef
+    let (pos:vel:acc:[]) = map getNums partialStrs
+    (Particle pos vel acc)
+
+getNums :: String -> Coordinate
+getNums coordStr = do
+    let (x:y:z:_) = splitOn "," (drop 3 (take ((length coordStr) - 1) coordStr))
+    (Coordinate (read x :: Int) (read y :: Int) (read z :: Int))
