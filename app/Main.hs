@@ -1,31 +1,16 @@
 module Main where
 
+import qualified Data.Map as Map
 import Data.List.Split
-import Data.List
 
-import Particle
+import Fractal
 
 
 main :: IO ()
 main = do
     input <- readFile "input.txt"
-    let particles = map parseParticle (lines input)
-    let particlesLeft = foldl runParticles particles [0..300]
-    print $ length particlesLeft
+    let rules = Map.fromList (map parseRule (lines input))
+    print $ growFractal rules 0 ".#./..#/###"
 
-parseParticle :: String -> Particle
-parseParticle partDef = do
-    let partialStrs = splitOn ", " partDef
-    let (pos:vel:acc:[]) = map getNums partialStrs
-    (Particle pos vel acc)
-
-getNums :: String -> Coordinate
-getNums coordStr = do
-    let (x:y:z:_) = splitOn "," (drop 3 (take ((length coordStr) - 1) coordStr))
-    (Coordinate (read x :: Int) (read y :: Int) (read z :: Int))
-
-removeCollidingParticles :: [Particle] -> [Particle]
-removeCollidingParticles particles = concat [x | x <- group (sort particles), (length x) == 1]
-
-runParticles :: [Particle] -> Int -> [Particle]
-runParticles particles _ = map moveParticle (removeCollidingParticles particles)
+parseRule :: String -> (String, String)
+parseRule rule = let spltStr = splitOn " => " rule in ((head spltStr), (last spltStr))
