@@ -4,6 +4,7 @@ import Test.Hspec
 import Data.Array
 
 import Tubular
+import Direction
 
 main :: IO()
 main = hspec spec
