@@ -3,12 +3,11 @@ module Main where
 import qualified Data.Map as Map
 import Data.List.Split
 
-import Virus
-import Direction
+import Coprocessor
 
 
 main :: IO ()
 main = do
     input <- readFile "input.txt"
-    let baseGrid = createGrid (lines input) 0 Map.empty
-    print $ scan baseGrid (North, (0, 0)) 0 0
+    let instructions = lines input
+    print $ parseInstruction (SingleExec instructions 0 0 Map.empty)
