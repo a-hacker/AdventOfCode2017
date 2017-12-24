@@ -7,7 +7,7 @@ data Executor = SingleExec [String] Int Int (Map.Map Char Int) | PairedExec [Str
 
 parseInstruction :: Executor -> Int
 parseInstruction exec@(SingleExec instructions currentPos mults registers)
-    | currentPos >= (length instructions) = mults
+    | currentPos >= (length instructions) = (registers Map.! 'h')
     | instr == "set" = parseInstruction (SingleExec instructions (currentPos + 1) mults (Map.insert (head val1) (getFromMap registers val2) registers))
     | instr == "sub" = parseInstruction (SingleExec instructions (currentPos + 1) mults (Map.insert (head val1) ((getFromMap registers val1) - (getFromMap registers val2)) registers))
     | instr == "mul" = parseInstruction (SingleExec instructions (currentPos + 1) (mults + 1) (Map.insert (head val1) ((getFromMap registers val1) * (getFromMap registers val2)) registers))
