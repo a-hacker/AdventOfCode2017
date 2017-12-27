@@ -22,3 +22,10 @@ goRight dir pos
     | dir == South = (West, updatePos West pos)
     | dir == East = (South, updatePos South pos)
     | dir == West = (North, updatePos North pos)
+
+goBack :: Direction -> (Int, Int) -> (Direction, (Int, Int))
+goBack dir pos
+    | dir == North = (South, updatePos South pos)
+    | dir == South = (North, updatePos North pos)
+    | dir == East = (West, updatePos West pos)
+    | dir == West = (East, updatePos East pos)
